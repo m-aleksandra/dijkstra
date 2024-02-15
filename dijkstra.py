@@ -6,40 +6,47 @@ from priority_queue import PriorityQueue
 class Dijkstra:
     def __init__(self, G, pos, src):
         self.G = G
+        self.pos = pos
         self.src = src
+        self.pq = PriorityQueue()
         self.pred = {node: None for node in G.nodes}
         self.visited = {node: False for node in G.nodes}
         self.distances = {node: float('infinity') for node in G.nodes}
         self.distances[src] = 0
-        self.pos = pos
-        self.pq = PriorityQueue()
 
     def visualize_step(self, curr_node):
         plt.clf()
         color_map = []
         for node in self.G.nodes:
             if node == self.src:
-                color_map.append('yellow')  # Source node
+                color_map.append('yellow')
             elif self.visited[node]:
-                color_map.append('blue')  # Visited nodes
+                color_map.append('blue')
             elif node in [n for _, n in self.pq.heap]:
-                color_map.append('red')  # Nodes currently in the priority queue
+                color_map.append('red')
             else:
-                color_map.append('gray')  # Unvisited and not in the priority queue
+                color_map.append('gray')
+
         if curr_node is not None and curr_node is not self.src:
-            # Find the index of curr_node in nodes list and set its color to green
             idx = list(self.G.nodes).index(curr_node)
-            color_map[idx] = 'green'  # Current node
+            color_map[idx] = 'green'
 
         nx.draw(self.G, pos=self.pos, node_color=color_map, with_labels=True, edge_color='gray')
         nx.draw_networkx_edge_labels(self.G, self.pos, edge_labels=nx.get_edge_attributes(self.G, 'weight'))
+
+        legend_labels = {'Yellow': 'Source', 'Blue': 'Visited', 'Red': 'Priority Queue', 'Green': 'Current'}
+        legend_patches = [plt.Line2D([0], [0], marker='o', color=color, label=label, linestyle='') for color, label in legend_labels.items()]
+        plt.legend(handles=legend_patches, loc='best')
 
         plt.draw()
         plt.pause(0.75) 
 
     def dijkstra(self, visualize=False):
         self.pq.push((0, self.src))
-        plt.ion()
+        curr_node = self.src
+
+        if visualize:
+            plt.ion()
 
         while not self.pq.empty():
             curr_dist, curr_node = self.pq.pop()
@@ -47,6 +54,8 @@ class Dijkstra:
             if visualize:
                 self.visualize_step(curr_node)
 
+            self.visited[curr_node] = True
+            
             for neighbor in self.G.neighbors(curr_node):
                 if not self.visited[neighbor]:
                     weight = self.G[curr_node][neighbor]['weight']
@@ -56,9 +65,16 @@ class Dijkstra:
                         self.pred[neighbor] = curr_node
                         self.pq.push((self.distances[neighbor], neighbor))
 
-            self.visited[curr_node] = True
-        plt.ioff()  
-        plt.show() 
+            
+
+            
+        
+        
+        print(curr_node)
+        if visualize:
+            plt.ioff()  
+            plt.show() 
+
     
     def recreate_path(self, target):
         path_colors = {node: 'grey' for node in self.G.nodes}
@@ -73,11 +89,9 @@ class Dijkstra:
             path_colors[p] = 'yellow'
             p = self.pred[p]
 
-        path.reverse()  # Reverse the path to start from the source
-
-        # Draw the final path
+        edge_colors = ['grey' if path_colors[edge[0]] == 'grey' or path_colors[edge[1]] == 'grey' else 'yellow' for edge in self.G.edges()]
         nx.draw(self.G, pos=self.pos, node_color=[path_colors[node] for node in self.G.nodes],
-                with_labels=True, edge_color='gray')
+                with_labels=True, edge_color=edge_colors)
         nx.draw_networkx_edge_labels(self.G, self.pos, edge_labels=nx.get_edge_attributes(self.G, 'weight'))
         plt.show()
 

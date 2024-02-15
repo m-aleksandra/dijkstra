@@ -60,24 +60,3 @@ class PriorityQueue:
         self._heapify_down()
         return min_item
     
-
-
-# Test the priority queue with the tasks and priorities
-def main():
-    pq = PriorityQueue()  # Initialize your priority queue
-
-    # Adding tasks to the priority queue
-    pq.push((2, 5))  # Priority 2, Task ID 5
-    pq.push((1, 3))  # Priority 1, Task ID 3
-    pq.push((4, 10)) # Priority 4, Task ID 10
-    pq.push((3, 1))  # Priority 3, Task ID 1
-    pq.push((5, 7))  # Priority 5, Task ID 7
-
-    # Popping tasks from the priority queue and printing them
-    while not pq.empty():
-        priority, task_id = pq.pop()
-        print(f"Task ID: {task_id}, Priority: {priority}")
-
-if __name__ == "__main__":
-    main()
-
