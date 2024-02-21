@@ -1,27 +1,50 @@
-# Dijkstra's Algorithm with Priority Queue
+# Wizualizacja algorytmu Dijkstry z wykorzystaniem kopca
 
-## Overview
+Projekt implementuje wizualizację algorytmu Dijkstry, wykorzystując strukturę danych kopiec (ang. *priority queue*) do efektywnego znajdowania najkrótszej ścieżki w grafie.
 
-This project implements Dijkstra's shortest path algorithm using a priority queue data structure for efficient node selection. It provides functionality to find the shortest path from a given source node to all other nodes in a weighted graph and offers visualization capabilities to understand the algorithm's execution.
+## Klasa Dijkstra
 
-## Priority Queue
+### `__init__(self, G, pos, src)`
+Konstruktor klasy przyjmuje trzy argumenty:
+- `G`: Graf, na którym będzie wykonywany algorytm Dijkstry, reprezentowany przez obiekt `networkx.Graph`.
+- `pos`: Pozycje wierzchołków grafu, używane do ich wizualizacji. Może być to słownik zdefiniowany przez użytkownika lub wynik funkcji `networkx` do rozmieszczania wierzchołków, np. `networkx.spring_layout(G)`.
+- `src`: Wierzchołek startowy algorytmu Dijkstry.
 
-The priority queue utilized in this project is implemented in the `priority_queue.py` file. It supports efficient insertion and extraction of items based on priority, achieved through a binary heap structure. The priority queue's operations, such as `_heapify_up` and `_heapify_down`, ensure that the heap property is maintained, enabling efficient priority-based operations with a time complexity of O(log n).
+### `_dijkstra_step(self) -> bool`
+Metoda wykonująca pojedynczy krok algorytmu Dijkstry. Zwraca `True`, jeśli algorytm może kontynuować, lub `False`, gdy kolejka priorytetowa jest pusta, co oznacza zakończenie algorytmu.
 
-- **_heapify_up**: Moves an element up in the heap until the heap property is satisfied, ensuring that the element has higher priority than its parent.
-- **_heapify_down**: Moves an element down in the heap until the heap property is satisfied, ensuring that the element has lower priority than its children.
+### `animate(self, i) -> None`
+Metoda wywoływana na każdym kroku animacji, odpowiedzialna za aktualizację wizualizacji grafu. Koloruje wierzchołki i krawędzie w zależności od ich statusu w algorytmie (np. wierzchołek aktualnie przetwarzany jest zielony, odwiedzone są niebieskie).
 
-## Dijkstra's Algorithm
+### `dijkstra(self, visualise=True) -> int`
+Metoda uruchamiająca algorytm Dijkstry. Jeśli `visualise` jest ustawione na `True`, algorytm jest wizualizowany. Zwraca słownik odległości od wierzchołka startowego do pozostałych wierzchołków.
 
-Dijkstra's algorithm is a graph search algorithm used to find the shortest path from a source node to all other nodes in a weighted graph. It operates by iteratively selecting the node with the shortest distance from the source and updating the distances to its neighbors accordingly.
+### `recreate_path(self, target, visualise=True) -> List[int]`
+Metoda odtwarzająca i wizualizująca najkrótszą ścieżkę od wierzchołka startowego do wierzchołka docelowego `target`. Koloruje ścieżkę i odpowiednie krawędzie, aby zaznaczyć wyznaczoną trasę. Gdy `visualise=False` to po prostu zwraca listę ze ścieżką.
 
-### Visualization
+## Klasa PriorityQueue
 
-The project provides visualization capabilities using Matplotlib to illustrate the execution of Dijkstra's algorithm. Nodes are colored based on their state during the algorithm's execution:
-- **Yellow**: Source node
-- **Blue**: Visited node
-- **Red**: Nodes in the priority queue
-- **Green**: Current node being processed
+### `__init__(self)`
+Konstruktor klasy inicjalizuje pustą listę `heap`, która będzie przechowywać krotki `(dystans, wierzchołek)`. Dystans jest wykorzystywany jako klucz do ustalania priorytetu w kopcu.
 
-Edges are colored to represent the shortest path found during the algorithm's execution.
+### `empty(self) -> bool`
+Metoda zwraca `True`, jeśli kopiec jest pusty, w przeciwnym razie zwraca `False`. Umożliwia sprawdzenie, czy w kolejce priorytetowej są jeszcze jakieś elementy.
 
+### Metody pomocnicze
+- `_parent(self, i) -> int`
+- `_left_child(self, i) -> int`
+- `_right_child(self, i) -> int`
+- `_swap(self, i, j) -> None`
+- `_heapify_up(self) -> None`
+- `_heapify_down(self) -> None`
+
+### `push(self, item) -> None`
+Dodaje nowy element `item` do kopca i przywraca jego własności kopca minimalnego za pomocą metody `_heapify_up`.
+
+### `pop(self) -> tuple`
+Usuwa i zwraca element z kopca o najniższym priorytecie (najmniejszym dystansie). Przed zwróceniem elementu, metoda przywraca własności kopca za pomocą metody `_heapify_down`.
+
+## Uruchomienie
+Wymagane jest zainstalowanie bibliotek `matplotlib` oraz `networkx`. Następnie wystarczy uruchomić plik `run.py`. Dwa przykłady grafów są stworzone w pliku `graph_examples.py` i importowane do `run.py`.
+
+![Zrzut ekranu 2024-02-21 235455](https://github.com/m-aleksandra/dijkstra/assets/100863656/7e8c76f1-5274-4282-9d57-2fa8ea83e0d4)
