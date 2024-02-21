@@ -31,8 +31,7 @@ big_graph = nx.Graph()
 for node, pos in positions_big.items():
     big_graph.add_node(node, pos=pos)
 
-edges_with_weights = [
-    (1, 2, 1.5),
+edges_with_weights_b = [
     (2, 3, 2.0),
     (16, 1, 3.0),
     (5, 6, 1.5),
@@ -63,6 +62,30 @@ edges_with_weights = [
     (8, 20, 1.0),
 ]
 
-big_graph.add_weighted_edges_from(edges_with_weights)
 
+big_graph.add_weighted_edges_from(edges_with_weights_b)
 
+positions_small = {
+    1: (0, 0),
+    2: (0, 1),
+    3: (1, 1),
+    4: (1, 0),
+    5: (0.5, 2),
+}
+
+edges_with_weights_s = {
+    (1, 2, 1),
+    (2, 3, 2),
+    (3, 4, 6),
+    (1, 4, 1),
+    (1, 3, 2),
+    (2, 5, 5),
+    (3, 5, 5),
+}
+
+small_graph = nx.Graph()
+
+for node, pos in positions_small.items():
+    small_graph.add_node(node, pos=pos)
+
+small_graph.add_weighted_edges_from(edges_with_weights_s)
