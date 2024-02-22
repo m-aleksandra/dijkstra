@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import networkx as nx
 from priority_queue import PriorityQueue
-from typing import List, Union
+from typing import List, Dict
 
 class Dijkstra:
     def __init__(self, G, pos, src):
@@ -77,7 +77,7 @@ class Dijkstra:
             return  
 
 
-    def dijkstra(self, visualise=True) -> Union[float, int]:
+    def dijkstra(self, visualise=True) -> Dict[int, float]:
         self.pq.push((0, self.src))
 
         if visualise:

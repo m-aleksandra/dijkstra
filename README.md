@@ -16,7 +16,7 @@ Metoda wykonująca pojedynczy krok algorytmu Dijkstry. Zwraca `True`, jeśli alg
 ### `animate(self, i) -> None`
 Metoda wywoływana na każdym kroku animacji, odpowiedzialna za aktualizację wizualizacji grafu. Koloruje wierzchołki i krawędzie w zależności od ich statusu w algorytmie (np. wierzchołek aktualnie przetwarzany jest zielony, odwiedzone są niebieskie).
 
-### `dijkstra(self, visualise=True) -> int`
+### `dijkstra(self, visualise=True) -> Dict[int, float]`
 Metoda uruchamiająca algorytm Dijkstry. Jeśli `visualise` jest ustawione na `True`, algorytm jest wizualizowany. Zwraca słownik odległości od wierzchołka startowego do pozostałych wierzchołków.
 
 ### `recreate_path(self, target, visualise=True) -> List[int]`
