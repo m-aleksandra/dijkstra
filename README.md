@@ -1,6 +1,6 @@
 # Wizualizacja algorytmu Dijkstry z wykorzystaniem kopca
 
-Projekt implementuje wizualizację algorytmu Dijkstry, wykorzystując strukturę danych kopiec (ang. *priority queue*) do efektywnego znajdowania najkrótszej ścieżki w grafie.
+Projekt implementuje wizualizację algorytmu Dijkstry, wykorzystując kopiec do efektywnego znajdowania najkrótszej ścieżki w grafie.
 
 ## Klasa Dijkstra
 
@@ -20,7 +20,7 @@ Metoda wywoływana na każdym kroku animacji, odpowiedzialna za aktualizację wi
 Metoda uruchamiająca algorytm Dijkstry. Jeśli `visualise` jest ustawione na `True`, algorytm jest wizualizowany. Zwraca słownik odległości od wierzchołka startowego do pozostałych wierzchołków.
 
 ### `recreate_path(self, target, visualise=True) -> List[int]`
-Metoda odtwarzająca i wizualizująca najkrótszą ścieżkę od wierzchołka startowego do wierzchołka docelowego `target`. Koloruje ścieżkę i odpowiednie krawędzie, aby zaznaczyć wyznaczoną trasę. Gdy `visualise=False` to po prostu zwraca listę ze ścieżką.
+Metoda odtwarzająca i wizualizująca najkrótszą ścieżkę od wierzchołka startowego do wierzchołka docelowego `target`. Gdy `visualise=True` koloruje ścieżkę i odpowiednie krawędzie, aby zaznaczyć wyznaczoną trasę. Zwraca listę ze ścieżką.
 
 ## Klasa PriorityQueue
 
